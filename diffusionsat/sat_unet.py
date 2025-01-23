@@ -542,19 +542,19 @@ class SatUNet(ModelMixin, ConfigMixin, UNet2DConditionLoadersMixin):
             emb = emb + class_emb
 
         # CUSTOM: metadata
-        if self.metadata_embedding is not None:
-            assert metadata is not None
-            assert len(metadata.shape) == 2 and metadata.shape[1] == self.num_metadata, \
-                f"Invalid metadata shape: {metadata.shape}. Need batch x num_metadata"
+        # if self.metadata_embedding is not None:
+        #     assert metadata is not None
+        #     assert len(metadata.shape) == 2 and metadata.shape[1] == self.num_metadata, \
+        #         f"Invalid metadata shape: {metadata.shape}. Need batch x num_metadata"
 
-            md_bsz = metadata.shape[0]
-            # invalid_metadata_mask = metadata == -1.  # (N, num_md)
-            metadata = self.time_proj(metadata.view(-1)).view(md_bsz, self.num_metadata, -1)  # (N, num_md, D)
-            # metadata[invalid_metadata_mask] = 0.
-            metadata = metadata.to(dtype=self.dtype)
-            for i, md_embed in enumerate(self.metadata_embedding):
-                md_emb = md_embed(metadata[:, i, :])  # (N, D)
-                emb = emb + md_emb  # (N, D)
+        #     md_bsz = metadata.shape[0]
+        #     # invalid_metadata_mask = metadata == -1.  # (N, num_md)
+        #     metadata = self.time_proj(metadata.view(-1)).view(md_bsz, self.num_metadata, -1)  # (N, num_md, D)
+        #     # metadata[invalid_metadata_mask] = 0.
+        #     metadata = metadata.to(dtype=self.dtype)
+        #     for i, md_embed in enumerate(self.metadata_embedding):
+        #         md_emb = md_embed(metadata[:, i, :])  # (N, D)
+        #         emb = emb + md_emb  # (N, D)
 
         # 2. pre-process
         sample = self.conv_in(sample)

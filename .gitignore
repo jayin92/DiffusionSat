@@ -1,0 +1,4 @@
+.ipynb_checkpoints
+__pycache__
+finetune_sd21_sn-satlas-fmow_snr5_md7norm_bs64
+*.zip
